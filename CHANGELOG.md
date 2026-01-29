@@ -1,5 +1,15 @@
 # tanstack-themer
 
+## 0.2.0
+
+### Minor Changes
+
+- 76813a2: ssr friendly fix
+
+### Patch Changes
+
+- 76813a2: fix window access to ssr env
+
 ## 0.1.2
 
 ### Patch Changes
