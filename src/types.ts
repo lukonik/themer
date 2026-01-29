@@ -1,57 +1,67 @@
-import * as React from 'react'
+import * as React from "react";
 
 interface ValueObject {
-  [themeName: string]: string
+  [themeName: string]: string;
 }
 
-type DataAttribute = `data-${string}`
+type DataAttribute = `data-${string}`;
 
-interface ScriptProps
-  extends React.DetailedHTMLProps<
-    React.ScriptHTMLAttributes<HTMLScriptElement>,
-    HTMLScriptElement
-  > {
-  [dataAttribute: DataAttribute]: any
+interface ScriptProps extends React.DetailedHTMLProps<
+  React.ScriptHTMLAttributes<HTMLScriptElement>,
+  HTMLScriptElement
+> {
+  [dataAttribute: DataAttribute]: any;
 }
 
 export interface UseThemeProps {
   /** List of all available theme names */
-  themes: string[]
+  themes: string[];
   /** Forced theme name for the current page */
-  forcedTheme?: string | undefined
+  forcedTheme?: string | undefined;
   /** Update the theme */
-  setTheme: React.Dispatch<React.SetStateAction<string>>
+  setTheme: React.Dispatch<React.SetStateAction<string>>;
   /** Active theme name */
-  theme?: string | undefined
+  theme?: string | undefined;
   /** If `enableSystem` is true and the active theme is "system", this returns whether the system preference resolved to "dark" or "light". Otherwise, identical to `theme` */
-  resolvedTheme?: string | undefined
+  resolvedTheme?: string | undefined;
   /** If enableSystem is true, returns the System theme preference ("dark" or "light"), regardless what the active theme is */
-  systemTheme?: 'dark' | 'light' | undefined
+  systemTheme?: "dark" | "light" | undefined;
 }
 
-export type Attribute = DataAttribute | 'class'
+export type Attribute = DataAttribute | "class";
 
 export interface ThemeProviderProps extends React.PropsWithChildren<unknown> {
   /** List of all available theme names */
-  themes?: string[] | undefined
+  themes?: string[] | undefined;
   /** Forced theme name for the current page */
-  forcedTheme?: string | undefined
+  forcedTheme?: string | undefined;
   /** Whether to switch between dark and light themes based on prefers-color-scheme */
-  enableSystem?: boolean | undefined
+  enableSystem?: boolean | undefined;
   /** Disable all CSS transitions when switching themes */
-  disableTransitionOnChange?: boolean | undefined
+  disableTransitionOnChange?: boolean | undefined;
   /** Whether to indicate to browsers which color scheme is used (dark or light) for built-in UI like inputs and buttons */
-  enableColorScheme?: boolean | undefined
+  enableColorScheme?: boolean | undefined;
   /** Key used to store theme setting in localStorage */
-  storageKey?: string | undefined
+  storageKey?: string | undefined;
   /** Default theme name (for v0.0.12 and lower the default was light). If `enableSystem` is false, the default theme is light */
-  defaultTheme?: string | undefined
+  defaultTheme?: string | undefined;
   /** HTML attribute modified based on the active theme. Accepts `class`, `data-*` (meaning any data attribute, `data-mode`, `data-color`, etc.), or an array which could include both */
-  attribute?: Attribute | Attribute[] | undefined
+  attribute?: Attribute | Attribute[] | undefined;
   /** Mapping of theme name to HTML attribute value. Object where key is the theme name and value is the attribute value */
-  value?: ValueObject | undefined
+  value?: ValueObject | undefined;
   /** Nonce string to pass to the inline script and style elements for CSP headers */
-  nonce?: string | undefined
+  nonce?: string | undefined;
   /** Props to pass the inline script */
-  scriptProps?: ScriptProps | undefined
+  scriptProps?: ScriptProps | undefined;
 }
+
+export type ThemeScript = (
+  attribute: ThemeProviderProps["attribute"],
+  storageKey: ThemeProviderProps["storageKey"],
+  defaultTheme: ThemeProviderProps["defaultTheme"],
+  forcedTheme: ThemeProviderProps["forcedTheme"],
+  themes: ThemeProviderProps["themes"],
+  value: ThemeProviderProps["value"],
+  enableSystem: ThemeProviderProps["enableSystem"],
+  enableColorScheme: ThemeProviderProps["enableColorScheme"],
+) => void;

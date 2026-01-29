@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { script } from "./script";
+import { localStorageScript } from "tanstack-theme";
 import { ScriptOnce } from "./ScriptOnce";
 import type { Attribute, ThemeProviderProps, UseThemeProps } from "./types";
 
@@ -209,7 +209,6 @@ export const ThemeScript = React.memo(
     defaultTheme,
     value,
     themes,
-    nonce,
     scriptProps,
   }: Omit<ThemeProviderProps, "children"> & { defaultTheme: string }) => {
     const scriptArgs = JSON.stringify([
@@ -225,7 +224,7 @@ export const ThemeScript = React.memo(
     return (
       <ScriptOnce
         attributes={scriptProps}
-        children={`(${script.toString()})(${scriptArgs})`}
+        children={`(${localStorageScript.toString()})(${scriptArgs})`}
       />
     );
   },

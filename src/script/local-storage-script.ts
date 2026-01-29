@@ -1,4 +1,6 @@
-export const script = (
+import type { ThemeScript } from "../types";
+
+export const script: ThemeScript = (
   attribute: any,
   storageKey: any,
   defaultTheme: any,
