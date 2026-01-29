@@ -3,14 +3,9 @@ import { describe, expect, it, vi } from "vitest";
 import { ThemeProvider, useTheme } from "./theme";
 
 vi.mock("@tanstack/react-router", () => ({
-  useRouter: () => ({
-    isServer: true,
-    options: {
-      ssr: {
-        nonce: undefined,
-      },
-    },
-  }),
+  ScriptOnce: ({ children }: { children: string }) => (
+    <script dangerouslySetInnerHTML={{ __html: children }} />
+  ),
 }));
 
 const DummyComponent = () => {
