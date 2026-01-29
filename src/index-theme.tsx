@@ -1,6 +1,14 @@
 "use client";
 
-import * as React from "react";
+import {
+  createContext,
+  memo,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { ScriptOnce } from "./ScriptOnce";
 import {
   getStorageAdapter,
@@ -12,13 +20,13 @@ import type { Attribute, ThemeProviderProps, UseThemeProps } from "./types";
 const colorSchemes = ["light", "dark"];
 const MEDIA = "(prefers-color-scheme: dark)";
 const isServer = typeof window === "undefined";
-const ThemeContext = React.createContext<UseThemeProps | undefined>(undefined);
+const ThemeContext = createContext<UseThemeProps | undefined>(undefined);
 const defaultContext: UseThemeProps = { setTheme: (_) => {}, themes: [] };
 
-export const useTheme = () => React.useContext(ThemeContext) ?? defaultContext;
+export const useTheme = () => useContext(ThemeContext) ?? defaultContext;
 
 export const ThemeProvider = (props: ThemeProviderProps) => {
-  const context = React.useContext(ThemeContext);
+  const context = useContext(ThemeContext);
 
   // Ignore nested context providers, just passthrough children
   if (context) return <>{props.children}</>;
@@ -42,21 +50,18 @@ const Theme = ({
   scriptProps,
   storage = "localStorage",
 }: ThemeProviderProps) => {
-  const storageAdapter = React.useMemo(
-    () => getStorageAdapter(storage),
-    [storage],
-  );
+  const storageAdapter = useMemo(() => getStorageAdapter(storage), [storage]);
 
-  const [theme, setThemeState] = React.useState(() => {
+  const [theme, setThemeState] = useState(() => {
     if (isServer) return defaultTheme;
     return storageAdapter.getItem(storageKey) || defaultTheme;
   });
-  const [resolvedTheme, setResolvedTheme] = React.useState(() =>
+  const [resolvedTheme, setResolvedTheme] = useState(() =>
     theme === "system" ? getSystemTheme() : theme,
   );
   const attrs = !value ? themes : Object.values(value);
 
-  const applyTheme = React.useCallback(
+  const applyTheme = useCallback(
     (theme: any) => {
       let resolved = theme;
       if (!resolved) return;
@@ -102,7 +107,7 @@ const Theme = ({
     [nonce],
   );
 
-  const setTheme = React.useCallback(
+  const setTheme = useCallback(
     (value: any) => {
       if (typeof value === "function") {
         setThemeState((prevTheme) => {
@@ -118,7 +123,7 @@ const Theme = ({
     [storageAdapter, storageKey],
   );
 
-  const handleMediaQuery = React.useCallback(
+  const handleMediaQuery = useCallback(
     (e: MediaQueryListEvent | MediaQueryList) => {
       const resolved = getSystemTheme(e);
       setResolvedTheme(resolved);
@@ -131,18 +136,17 @@ const Theme = ({
   );
 
   // Always listen to System preference
-  React.useEffect(() => {
+  useEffect(() => {
     const media = window.matchMedia(MEDIA);
 
-    // Intentionally use deprecated listener methods to support iOS & old browsers
-    media.addListener(handleMediaQuery);
+    media.addEventListener("change", handleMediaQuery);
     handleMediaQuery(media);
 
-    return () => media.removeListener(handleMediaQuery);
+    return () => media.removeEventListener("change", handleMediaQuery);
   }, [handleMediaQuery]);
 
   // Storage event handling (only for localStorage and sessionStorage)
-  React.useEffect(() => {
+  useEffect(() => {
     if (!isBuiltInStorage(storage) || storage === "cookie") {
       return;
     }
@@ -165,11 +169,11 @@ const Theme = ({
   }, [setTheme, storage, storageKey, defaultTheme]);
 
   // Whenever theme or forcedTheme changes, apply it
-  React.useEffect(() => {
+  useEffect(() => {
     applyTheme(forcedTheme ?? theme);
   }, [forcedTheme, theme]);
 
-  const providerValue = React.useMemo(
+  const providerValue = useMemo(
     () => ({
       theme,
       setTheme,
@@ -207,7 +211,7 @@ const Theme = ({
   );
 };
 
-export const ThemeScript = React.memo(
+export const ThemeScript = memo(
   ({
     forcedTheme,
     storageKey,
