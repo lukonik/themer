@@ -10,8 +10,13 @@ export const Route = createRootRoute({
 function RootComponent() {
   return (
     <React.Fragment>
-      <ThemeProvider>
-        <div>Hello "__root"!</div>
+      <ThemeProvider
+        themes={["light", "dark", "ocean", "forest", "sunset"]}
+        defaultTheme="system"
+        attribute="data-theme"
+        enableSystem
+        enableColorScheme
+      >
         <Outlet />
       </ThemeProvider>
     </React.Fragment>

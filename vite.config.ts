@@ -1,4 +1,5 @@
 /// <reference types="vitest/config" />
+import tailwindcss from "@tailwindcss/vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import react from "@vitejs/plugin-react";
 import { playwright } from "@vitest/browser-playwright";
@@ -13,6 +14,7 @@ export default defineConfig({
     },
   },
   plugins: [
+    tailwindcss(),
     tanstackRouter({
       target: "react",
       autoCodeSplitting: true,
