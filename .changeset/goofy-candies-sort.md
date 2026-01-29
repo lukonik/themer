@@ -1,5 +1,5 @@
 ---
-"tanstack-theme": minor
+"tanstack-themer": minor
 ---
 
 implement theme

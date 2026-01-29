@@ -3,7 +3,7 @@
   "configVersion": 1,
   "workspaces": {
     "": {
-      "name": "tanstack-theme",
+      "name": "tanstack-themer",
       "dependencies": {
         "@changesets/cli": "^2.29.8",
         "@tailwindcss/vite": "^4.1.18",

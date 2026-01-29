@@ -1,12 +1,12 @@
 import {
+  cookieStorageScript,
   localStorageScript,
   sessionStorageScript,
-  cookieStorageScript,
-} from "tanstack-theme";
+} from "tanstack-themer";
 import type { BuiltInStorage, ThemeStorage } from "../types";
+import { cookieStorageAdapter } from "./cookie-storage";
 import { localStorageAdapter } from "./local-storage";
 import { sessionStorageAdapter } from "./session-storage";
-import { cookieStorageAdapter } from "./cookie-storage";
 
 export const isBuiltInStorage = (
   storage: BuiltInStorage | ThemeStorage | undefined,

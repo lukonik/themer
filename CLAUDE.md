@@ -47,4 +47,4 @@ Custom implementation extending TanStack Router's ScriptOnce to support passing 
 
 - Theme is applied to `document.documentElement` via configurable attribute (`data-theme`, `class`, etc.)
 - System theme preference is resolved at runtime via `matchMedia`
-- Library self-imports (`tanstack-theme`) via Vite alias for development - see `vite.config.ts`
+- Library self-imports (`tanstack-themer`) via Vite alias for development - see `vite.config.ts`

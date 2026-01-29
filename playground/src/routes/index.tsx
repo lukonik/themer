@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useTheme } from "tanstack-theme";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useTheme } from "tanstack-themer";
 
 export const Route = createFileRoute("/")({
   component: PlaygroundPage,

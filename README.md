@@ -1,4 +1,4 @@
-# tanstack-theme
+# tanstack-themer
 
 A starter for creating a React component library.
 

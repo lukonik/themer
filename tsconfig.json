@@ -13,7 +13,7 @@
     "emitDeclarationOnly": true,
     "verbatimModuleSyntax": true,
     "paths": {
-      "tanstack-theme": ["./src"]
+      "tanstack-themer": ["./src"]
     }
   },
   "include": ["src", "playground"]
