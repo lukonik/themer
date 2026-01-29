@@ -1,5 +1,11 @@
 # tanstack-themer
 
+## 0.1.2
+
+### Patch Changes
+
+- 2665ae4: fix window access to ssr env
+
 ## 0.1.1
 
 ### Patch Changes

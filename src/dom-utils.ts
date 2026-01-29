@@ -32,7 +32,7 @@ export const getSystemTheme = (e?: MediaQueryList | MediaQueryListEvent) => {
       const systemTheme = isDark ? "dark" : "light";
       return systemTheme;
     },
-    () => 'light',
+    () => "light",
   );
 };
 
