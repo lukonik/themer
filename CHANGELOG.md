@@ -1,5 +1,11 @@
 # tanstack-themer
 
+## 0.2.1
+
+### Patch Changes
+
+- 98d5e5d: peer-dependency fix
+
 ## 0.2.0
 
 ### Minor Changes
