@@ -55,8 +55,8 @@ bun add tan-themer
 Wrap your app with `ThemeProvider` in your root route:
 
 ```tsx
-import { ThemeProvider } from 'tan-themer'
-import { createRootRoute, Outlet } from '@tanstack/react-router'
+import { ThemeProvider } from "tan-themer";
+import { createRootRoute, Outlet } from "@tanstack/react-router";
 
 export const Route = createRootRoute({
   component: () => (
@@ -64,7 +64,7 @@ export const Route = createRootRoute({
       <Outlet />
     </ThemeProvider>
   ),
-})
+});
 ```
 
 ### Using the Theme
@@ -72,19 +72,19 @@ export const Route = createRootRoute({
 Use the `useTheme` hook to access and control the theme:
 
 ```tsx
-import { useTheme } from 'tan-themer'
+import { useTheme } from "tan-themer";
 
 function ThemeSwitcher() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
 
   return (
     <div>
       <p>Current theme: {theme}</p>
-      <button onClick={() => setTheme('light')}>Light</button>
-      <button onClick={() => setTheme('dark')}>Dark</button>
-      <button onClick={() => setTheme('system')}>System</button>
+      <button onClick={() => setTheme("light")}>Light</button>
+      <button onClick={() => setTheme("dark")}>Dark</button>
+      <button onClick={() => setTheme("system")}>System</button>
     </div>
-  )
+  );
 }
 ```
 
@@ -108,27 +108,25 @@ By default, themes are applied via the `class` attribute on the `<html>` element
 Or with Tailwind CSS using class variants:
 
 ```tsx
-<div className="bg-white dark:bg-black">
-  Content
-</div>
+<div className="bg-white dark:bg-black">Content</div>
 ```
 
 ## API Reference
 
 ### ThemeProvider Props
 
-| Prop | Type | Default | Description |
-|------|------|---------|-------------|
-| `themes` | `string[]` | `['light', 'dark']` | List of available theme names |
-| `defaultTheme` | `string` | `'system'` (if `enableSystem` is true) or `'light'` | Default theme to use |
-| `enableSystem` | `boolean` | `true` | Enable system theme detection |
-| `enableColorScheme` | `boolean` | `true` | Apply `color-scheme` to html element |
-| `storageKey` | `string` | `'theme'` | Key used to store theme in storage |
-| `storage` | `'localStorage'` \| `'sessionStorage'` \| `'cookie'` \| `ThemeStorage` | `'localStorage'` | Storage mechanism to persist theme |
-| `attribute` | `'class'` \| `'data-*'` \| `Array` | `'class'` | HTML attribute to apply theme (e.g., `'class'`, `'data-theme'`, `['class', 'data-mode']`) |
-| `value` | `object` | `undefined` | Mapping of theme names to attribute values |
-| `forcedTheme` | `string` | `undefined` | Force a specific theme (ignores user preference) |
-| `disableTransitionOnChange` | `boolean` | `false` | Disable CSS transitions when changing themes |
+| Prop                        | Type                                                                   | Default                                             | Description                                                                               |
+| --------------------------- | ---------------------------------------------------------------------- | --------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| `themes`                    | `string[]`                                                             | `['light', 'dark']`                                 | List of available theme names                                                             |
+| `defaultTheme`              | `string`                                                               | `'system'` (if `enableSystem` is true) or `'light'` | Default theme to use                                                                      |
+| `enableSystem`              | `boolean`                                                              | `true`                                              | Enable system theme detection                                                             |
+| `enableColorScheme`         | `boolean`                                                              | `true`                                              | Apply `color-scheme` to html element                                                      |
+| `storageKey`                | `string`                                                               | `'theme'`                                           | Key used to store theme in storage                                                        |
+| `storage`                   | `'localStorage'` \| `'sessionStorage'` \| `'cookie'` \| `ThemeStorage` | `'localStorage'`                                    | Storage mechanism to persist theme                                                        |
+| `attribute`                 | `'class'` \| `'data-*'` \| `Array`                                     | `'class'`                                           | HTML attribute to apply theme (e.g., `'class'`, `'data-theme'`, `['class', 'data-mode']`) |
+| `value`                     | `object`                                                               | `undefined`                                         | Mapping of theme names to attribute values                                                |
+| `forcedTheme`               | `string`                                                               | `undefined`                                         | Force a specific theme (ignores user preference)                                          |
+| `disableTransitionOnChange` | `boolean`                                                              | `false`                                             | Disable CSS transitions when changing themes                                              |
 
 ### useTheme Hook
 
@@ -136,23 +134,23 @@ Returns an object with the following properties:
 
 ```tsx
 const {
-  theme,          // Current theme name (e.g., 'light', 'dark', 'system')
-  setTheme,       // Function to change theme
-  resolvedTheme,  // Actual theme in use (resolves 'system' to 'light' or 'dark')
-  systemTheme,    // System preference ('light' or 'dark')
-  themes,         // Array of available themes
-  forcedTheme,    // Forced theme if set
-} = useTheme()
+  theme, // Current theme name (e.g., 'light', 'dark', 'system')
+  setTheme, // Function to change theme
+  resolvedTheme, // Actual theme in use (resolves 'system' to 'light' or 'dark')
+  systemTheme, // System preference ('light' or 'dark')
+  themes, // Array of available themes
+  forcedTheme, // Forced theme if set
+} = useTheme();
 ```
 
 #### setTheme
 
 ```tsx
 // Direct value
-setTheme('dark')
+setTheme("dark");
 
 // Function form (for toggling)
-setTheme(prev => prev === 'dark' ? 'light' : 'dark')
+setTheme((prev) => (prev === "dark" ? "light" : "dark"));
 ```
 
 ## Advanced Usage
@@ -163,7 +161,7 @@ Define your own theme names:
 
 ```tsx
 <ThemeProvider
-  themes={['light', 'dark', 'ocean', 'forest', 'sunset']}
+  themes={["light", "dark", "ocean", "forest", "sunset"]}
   defaultTheme="ocean"
 >
   <App />
@@ -198,8 +196,12 @@ Apply themes via data attributes instead of CSS classes:
 ```
 
 ```css
-[data-theme='light'] { /* styles */ }
-[data-theme='dark'] { /* styles */ }
+[data-theme="light"] {
+  /* styles */
+}
+[data-theme="dark"] {
+  /* styles */
+}
 ```
 
 ### Multiple Attributes
@@ -207,7 +209,7 @@ Apply themes via data attributes instead of CSS classes:
 Apply themes to multiple attributes simultaneously:
 
 ```tsx
-<ThemeProvider attribute={['class', 'data-mode']}>
+<ThemeProvider attribute={["class", "data-mode"]}>
   <App />
 </ThemeProvider>
 ```
@@ -220,10 +222,10 @@ Map theme names to different attribute values:
 
 ```tsx
 <ThemeProvider
-  themes={['light', 'dark']}
+  themes={["light", "dark"]}
   value={{
-    light: 'day',
-    dark: 'night',
+    light: "day",
+    dark: "night",
   }}
 >
   <App />
@@ -349,10 +351,10 @@ This works through the storage adapter's `subscribe` method, which listens for s
 ```tsx
 // Automatically handled by the library
 useEffect(() => {
-  return storage.subscribe?.('theme', (newValue) => {
-    setTheme(newValue ?? defaultTheme)
-  })
-}, [])
+  return storage.subscribe?.("theme", (newValue) => {
+    setTheme(newValue ?? defaultTheme);
+  });
+}, []);
 ```
 
 ## Examples
@@ -361,13 +363,13 @@ useEffect(() => {
 
 ```tsx
 function ThemeToggle() {
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme();
 
   return (
-    <button onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}>
-      {theme === 'dark' ? '☀️' : '🌙'}
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+      {theme === "dark" ? "☀️" : "🌙"}
     </button>
-  )
+  );
 }
 ```
 
@@ -375,7 +377,7 @@ function ThemeToggle() {
 
 ```tsx
 function ThemeSelector() {
-  const { theme, themes, setTheme } = useTheme()
+  const { theme, themes, setTheme } = useTheme();
 
   return (
     <select value={theme} onChange={(e) => setTheme(e.target.value)}>
@@ -385,7 +387,7 @@ function ThemeSelector() {
         </option>
       ))}
     </select>
-  )
+  );
 }
 ```
 
@@ -394,19 +396,18 @@ function ThemeSelector() {
 To avoid hydration mismatches, wait for mount before rendering theme-dependent content:
 
 ```tsx
+import { useHydrated } from "@tanstack/react-router";
+
 function ThemedComponent() {
-  const [mounted, setMounted] = useState(false)
-  const { theme } = useTheme()
+  const hydrated = useHydrated();
+  const { theme } = useTheme();
 
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
-  if (!mounted) {
-    return <div>Loading...</div>
+  if (!hydrated) {
+    return <div>Loading...</div>;
   }
 
-  return <div>Current theme: {theme}</div>
+  return <div>Current theme: {theme}</div>;
 }
 ```
 
@@ -416,13 +417,13 @@ Use `forcedTheme` on specific routes:
 
 ```tsx
 // Dark theme for landing page
-export const Route = createFileRoute('/landing')({
+export const Route = createFileRoute("/landing")({
   component: () => (
     <ThemeProvider forcedTheme="dark">
       <LandingPage />
     </ThemeProvider>
   ),
-})
+});
 ```
 
 Note: Nested `ThemeProvider` components automatically pass through to the parent, so you can safely use multiple providers.
@@ -438,7 +439,7 @@ import type {
   ThemeStorage,
   BuiltInStorage,
   Attribute,
-} from 'tan-themer'
+} from "tan-themer";
 ```
 
 ## Development
@@ -466,6 +467,7 @@ bun run typecheck
 ## Browser Support
 
 Works in all modern browsers that support:
+
 - `matchMedia` API for system theme detection
 - `Storage` API (localStorage/sessionStorage)
 - CSS custom properties (CSS variables)

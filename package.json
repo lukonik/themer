@@ -13,6 +13,23 @@
   "bugs": {
     "url": "https://github.com/lukonik/tan-themer/issues"
   },
+  "keywords": [
+    "react",
+    "theme",
+    "dark-mode",
+    "light-mode",
+    "tanstack",
+    "tanstack-router",
+    "theme-provider",
+    "theme-switcher",
+    "ssr",
+    "system-theme",
+    "color-scheme",
+    "fouc",
+    "react-theme",
+    "dark-theme",
+    "light-theme"
+  ],
   "exports": {
     ".": "./dist/index.js",
     "./package.json": "./package.json"
