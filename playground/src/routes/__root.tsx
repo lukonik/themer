@@ -1,7 +1,7 @@
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import * as React from "react";
 
-import { ThemeProvider } from "tan-themer";
+import { ThemeProvider } from "@lonik/themer";
 
 export const Route = createRootRoute({
   component: RootComponent,

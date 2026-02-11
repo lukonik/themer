@@ -2,7 +2,7 @@ import {
   cookieStorageScript,
   localStorageScript,
   sessionStorageScript,
-} from "tan-themer";
+} from "@lonik/themer";
 import type { BuiltInStorage, ThemeStorage } from "../types";
 import { cookieStorageAdapter } from "./cookie-storage";
 import { localStorageAdapter } from "./local-storage";

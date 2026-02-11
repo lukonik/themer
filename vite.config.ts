@@ -10,7 +10,7 @@ export default defineConfig({
   root: "./playground",
   resolve: {
     alias: {
-      "tan-themer": path.resolve(__dirname, "./src"),
+      "@lonik/themer": path.resolve(__dirname, "./src"),
     },
   },
   plugins: [

@@ -1,6 +1,6 @@
+import { useTheme } from "@lonik/themer";
 import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { useTheme } from "tan-themer";
 
 export const Route = createFileRoute("/")({
   component: PlaygroundPage,

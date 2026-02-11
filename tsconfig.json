@@ -13,7 +13,7 @@
     "emitDeclarationOnly": true,
     "verbatimModuleSyntax": true,
     "paths": {
-      "tan-themer": ["./src"]
+      "@lonik/themer": ["./src"]
     }
   },
   "include": ["src", "playground"]

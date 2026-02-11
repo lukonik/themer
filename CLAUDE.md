@@ -38,4 +38,4 @@ Uses TanStack Router's ScriptOnce component to inject the inline script.
 
 - Theme is applied to `document.documentElement` via configurable attribute (`data-theme`, `class`, etc.)
 - System theme preference is resolved at runtime via `matchMedia`
-- Library self-imports (`tan-themer`) via Vite alias for development - see `vite.config.ts`
+- Library self-imports (`@lonik/themer`) via Vite alias for development - see `vite.config.ts`
