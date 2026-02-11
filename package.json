@@ -1,17 +1,17 @@
 {
-  "name": "tan-themer",
+  "name": "@lonik/themer",
   "type": "module",
   "version": "0.4.1",
   "description": "A starter for creating a React component library.",
   "author": "Author Name <author.name@mail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/lukonik/tan-themer",
+  "homepage": "https://github.com/lukonik/themer",
   "repository": {
     "type": "git",
-    "url": "https://github.com/lukonik/tan-themer"
+    "url": "https://github.com/lukonik/themer"
   },
   "bugs": {
-    "url": "https://github.com/lukonik/tan-themer/issues"
+    "url": "https://github.com/lukonik/themer/issues"
   },
   "keywords": [
     "react",
@@ -49,9 +49,6 @@
     "play": "vite",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "release": "bunx @changesets/cli publish",
-    "changeset": "bunx @changesets/cli",
-    "version": "bunx @changesets/cli version",
     "prepublishOnly": "bun run build"
   },
   "peerDependencies": {
@@ -61,8 +58,6 @@
   },
   "devDependencies": {
     "@tanstack/react-router": "^1.157.16",
-    "react": "^19.2.0",
-    "react-dom": "^19.2.0",
     "@tanstack/react-router-devtools": "^1.157.16",
     "@tanstack/router-plugin": "^1.157.16",
     "@tsconfig/strictest": "^2.0.8",
@@ -72,6 +67,8 @@
     "@vitejs/plugin-react": "^5.1.2",
     "@vitest/browser-playwright": "^4.0.16",
     "bumpp": "^10.3.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
     "tsdown": "^0.18.1",
     "typescript": "^5.9.3",
     "vite": "^7.3.0",
@@ -79,7 +76,6 @@
     "vitest-browser-react": "^2.0.2"
   },
   "dependencies": {
-    "@changesets/cli": "^2.29.8",
     "@tailwindcss/vite": "^4.1.18",
     "tailwindcss": "^4.1.18"
   }

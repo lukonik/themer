@@ -1,6 +1,6 @@
 <div align="center">
-  <h1>Tan Themer</h1>
-  <p>tan-themer is a theme management library for React applications built for TanStack Router and TanStack Start</p>
+  <h1>Themer</h1>
+  <p>Themer is a theme management library for React applications built for TanStack Router and TanStack Start</p>
 </div>
 
 <div align="center">
@@ -324,7 +324,7 @@ Prevent CSS transition flash when changing themes:
 ## SSR & FOUC Prevention
 
 TanStack Themer automatically prevents flash of unstyled content (FOUC) by injecting an inline script that runs before React hydration. The script reads the stored theme and applies it to the DOM immediately.
-Tan Themer
+Themer
 The `ThemeScript` component (included in `ThemeProvider`) uses TanStack Router's `ScriptOnce` to inject the appropriate script based on your storage type:
 
 - `localStorageScript` - For localStorage
