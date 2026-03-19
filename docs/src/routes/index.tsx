@@ -1,20 +1,17 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import {
+  AppWindow,
   ArrowRight,
+  Blocks,
   Code2,
-  FileText,
-  FolderTree,
+  Database,
+  Feather,
   Github,
-  Layers,
-  PaintBucket,
   Palette,
-  PanelLeft,
   RefreshCw,
-  Rocket,
-  Search,
+  Server,
   ShieldCheck,
   Sliders,
-  Sparkles,
   SunMoon,
   Zap,
 } from "lucide-react";
@@ -26,92 +23,67 @@ export const Route = createFileRoute("/")({
 
 const features = [
   {
-    title: "Markdown Power",
-    description:
-      "MD, MDX, and GFM compilation integrated out of the box. Extend capabilities via rehype and remark plugins.",
-    icon: FileText,
+    title: "Tanstack Integration",
+    description: "Tanstack Router and Tanstack Start first class support",
+    icon: Blocks,
   },
   {
-    title: "Powered by Vite",
+    title: "Zero FOUC",
     description:
-      "Built on Vite, so the entire Vite ecosystem is at your disposal.",
+      "Theme applied before React hydration to prevent any Flash of Unstyled Content.",
     icon: Zap,
   },
   {
-    title: "TypeScript Native",
-    description:
-      "First-class TypeScript support. Written entirely in TypeScript.",
-    icon: Code2,
+    title: "SSR Support",
+    description: "Works seamlessly with server-side rendering.",
+    icon: Server,
   },
   {
-    title: "Tailwind First",
-    description:
-      "First-class Tailwind CSS support. Prestige is designed with Tailwind.",
-    icon: Palette,
+    title: "Client Support",
+    description: "Works seamlessly with SPA (Single Page Applications).",
+    icon: AppWindow,
   },
   {
-    title: "Dark & Light Modes",
-    description:
-      "Dark and light theme modes perfectly balanced for readability.",
+    title: "System Theme Detection",
+    description: "Automatically follows OS dark/light mode preferences.",
     icon: SunMoon,
   },
   {
-    title: "Color Schemes",
+    title: "Different Storage Types",
     description:
-      "Multiple color schemes. All Tailwind colors are included, and you can easily add your own.",
-    icon: PaintBucket,
+      "Save theme with built-in localStorage, sessionStorage, cookieStorage, or write your own custom storage adapter.",
+    icon: Database,
   },
   {
-    title: "DocSearch Built-in",
-    description:
-      "Algolia DocSearch integration built right in for rapid information retrieval.",
-    icon: Search,
-  },
-  {
-    title: "Auto Sidebars",
-    description: "Automatically generate sidebars based on collection content.",
-    icon: PanelLeft,
-  },
-  {
-    title: "Auto Pages",
-    description: "Automatically generate pages based on directory structure.",
-    icon: FolderTree,
-  },
-  {
-    title: "Collections Architecture",
-    description:
-      "Different collections can have independent navigation menus and sidebars (e.g., /docs/*, /api/*).",
-    icon: Layers,
-  },
-  {
-    title: "Hot Reloading",
-    description:
-      "Markdown changes instantly update the UI. No waiting, no refreshing.",
+    title: "Cross-Tab Synchronization",
+    description: "Theme changes sync across browser tabs.",
     icon: RefreshCw,
   },
   {
-    title: "Blazing Fast SSG",
-    description:
-      "Statically analyzed and generated HTML. Content routes are lazy-loaded, delivering incredibly fast pages.",
-    icon: Rocket,
+    title: "Flexible Theme Application",
+    description: "Apply themes via data attributes or CSS classes.",
+    icon: Palette,
   },
   {
-    title: "Type-Safe Routes",
-    description:
-      "File-based routes via TanStack Router deliver full IntelliSense and type safety.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Fully Customizable",
-    description:
-      "A thin layer over TanStack Start. Easily add or remove features like a regular project.",
+    title: "Custom Theme Values",
+    description: "Map theme names to custom attribute values.",
     icon: Sliders,
   },
   {
-    title: "Beautiful by Default",
+    title: "TypeScript Support",
+    description: "Fully typed API.",
+    icon: Code2,
+  },
+  {
+    title: "Lightweight",
     description:
-      "Carefully crafted typography, spacing, and micro-interactions. We hope you'll like it.",
-    icon: Sparkles,
+      "Minimal bundle size with no external dependencies (except peer deps).",
+    icon: Feather,
+  },
+  {
+    title: "No Transition Flash",
+    description: "Optionally disable CSS transitions during theme changes.",
+    icon: ShieldCheck,
   },
 ];
 
@@ -138,12 +110,14 @@ function RouteComponent() {
             </h1>
 
             <p className="text-xl lg:text-2xl text-default-600 mb-12 max-w-2xl leading-relaxed font-light text-center mx-auto">
-              <span className="px-1">Ultimate Theme library for </span>
-              <span className="px-1 inline-flex items-center ">
-                TanStack Start ,
-              </span>
-              <span className="px-1 inline-flex items-center ">
-                and Tanstack Router
+              The easiest way to add a Dark/Light theme to your{" "}
+              <span className="inline-flex gap-1 items-center">
+                TanStack App
+                <img
+                  className="w-5 h-5 ml-1"
+                  src="/tanstack.png"
+                  alt="Tanstack logo"
+                />
               </span>
             </p>
 
@@ -159,7 +133,7 @@ function RouteComponent() {
                 rel="noreferrer"
                 className="w-full sm:w-auto"
               >
-                <button className="w-full sm:w-auto rounded-full px-8 py-4 border border-default-200 bg-white hover:bg-default-50 text-default-700 font-medium transition-all hover:scale-105 active:scale-95 shadow-sm flex items-center justify-center gap-3">
+                <button className="w-full sm:w-auto rounded-full px-8 py-4 border border-default-200 bg-default-50 hover:bg-default-50 text-default-700 font-medium transition-all hover:scale-105 active:scale-95 shadow-sm flex items-center justify-center gap-3">
                   <Github size={20} />
                   <span>Star on GitHub</span>
                 </button>
@@ -180,7 +154,7 @@ function RouteComponent() {
             {features.map((feature, i) => (
               <div
                 key={i}
-                className="group p-8 rounded-3xl border border-default-200 bg-white hover:bg-default-50/80 transition-all duration-500 flex flex-col h-full hover:border-primary-200 hover:shadow-xl hover:shadow-primary-600/5 relative overflow-hidden"
+                className="group p-8 rounded-3xl border border-default-200 bg-default-50 hover:bg-default-50/80 transition-all duration-500 flex flex-col h-full hover:border-primary-200 hover:shadow-xl hover:shadow-primary-600/5 relative overflow-hidden"
               >
                 <div className="absolute top-0 right-0 p-32 bg-linear-to-bl from-primary-400/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none rounded-full blur-3xl translate-x-10 -translate-y-10" />
                 <div className="relative z-10 flex flex-col h-full">
