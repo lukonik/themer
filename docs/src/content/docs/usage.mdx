@@ -1,0 +1,157 @@
+# Usage
+
+## Basic Theme Switcher
+
+Use `useTheme` anywhere under `ThemeProvider`:
+
+```tsx
+import { useTheme } from "@lonik/themer";
+
+export function ThemeSwitcher() {
+  const { theme, setTheme } = useTheme();
+
+  return (
+    <div>
+      <p>Current theme: {theme}</p>
+      <button onClick={() => setTheme("light")}>Light</button>
+      <button onClick={() => setTheme("dark")}>Dark</button>
+      <button onClick={() => setTheme("system")}>System</button>
+    </div>
+  );
+}
+```
+
+## Styling Strategies
+
+By default, Themer applies the theme as a class on `<html>`:
+
+```css
+.light {
+  --background: white;
+  --text: black;
+}
+
+.dark {
+  --background: black;
+  --text: white;
+}
+```
+
+You can also use a data attribute:
+
+```tsx
+<ThemeProvider attribute="data-theme">
+  <App />
+</ThemeProvider>
+```
+
+```css
+[data-theme="light"] {
+  --background: white;
+}
+
+[data-theme="dark"] {
+  --background: black;
+}
+```
+
+## Custom Themes
+
+You are not limited to `light` and `dark`:
+
+```tsx
+<ThemeProvider
+  themes={["light", "dark", "ocean"]}
+  defaultTheme="ocean"
+>
+  <App />
+</ThemeProvider>
+```
+
+## Multiple Attributes
+
+Apply the theme to more than one attribute at the same time:
+
+```tsx
+<ThemeProvider attribute={["class", "data-theme"]}>
+  <App />
+</ThemeProvider>
+```
+
+## Custom Value Mapping
+
+Map a theme name to a different DOM value:
+
+```tsx
+<ThemeProvider
+  value={{
+    light: "day",
+    dark: "night",
+  }}
+>
+  <App />
+</ThemeProvider>
+```
+
+With the default `class` attribute, that produces `class="day"` or `class="night"` on `<html>`.
+
+## Storage Options
+
+Use the built-in storage adapters:
+
+```tsx
+<ThemeProvider storage="localStorage" />
+```
+
+```tsx
+<ThemeProvider storage="sessionStorage" />
+```
+
+```tsx
+<ThemeProvider storage="cookie" />
+```
+
+Or provide a custom adapter:
+
+```tsx
+import type { ThemeStorage } from "@lonik/themer";
+
+const memoryStorage: ThemeStorage = {
+  getItem: (key) => window.myStore.get(key) ?? null,
+  setItem: (key, value) => window.myStore.set(key, value),
+  removeItem: (key) => window.myStore.delete(key),
+  subscribe: (key, callback) => window.myStore.subscribe(key, callback),
+};
+
+<ThemeProvider storage={memoryStorage}>
+  <App />
+</ThemeProvider>;
+```
+
+Custom storage works for runtime persistence, but it does not get a built-in pre-hydration script. The inline script is only available for `localStorage`, `sessionStorage`, and `cookie`.
+
+## Forced Theme
+
+Use `forcedTheme` when a route must always render in one theme:
+
+```tsx
+<ThemeProvider forcedTheme="dark">
+  <LandingPage />
+</ThemeProvider>
+```
+
+When `forcedTheme` is set, user preference is ignored for that provider.
+
+## Transition Control
+
+If your UI has noticeable color transitions, you can temporarily disable them during a theme change:
+
+```tsx
+<ThemeProvider disableTransitionOnChange>
+  <App />
+</ThemeProvider>
+```
+
+## Nested Providers
+
+Nested `ThemeProvider` instances are ignored and pass through to the first parent provider. That means you can safely keep one provider at the app root without worrying about accidental double-management deeper in the tree.

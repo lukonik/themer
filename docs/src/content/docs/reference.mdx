@@ -1,0 +1,147 @@
+# Reference
+
+## Exports
+
+```tsx
+import {
+  ThemeProvider,
+  useTheme,
+  localStorageScript,
+  sessionStorageScript,
+  cookieStorageScript,
+} from "@lonik/themer";
+```
+
+Type exports:
+
+```tsx
+import type {
+  Attribute,
+  BuiltInStorage,
+  ThemeProviderProps,
+  ThemeScript,
+  ThemeStorage,
+  UseThemeProps,
+} from "@lonik/themer";
+```
+
+## `ThemeProvider`
+
+`ThemeProvider` owns the theme state, applies the active theme to `document.documentElement`, subscribes to storage changes, and injects the built-in pre-hydration script when possible.
+
+Nested providers are ignored and pass children through to the parent provider.
+
+### Props
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `themes` | `string[]` | `["light", "dark"]` | Available theme names. |
+| `forcedTheme` | `string` | `undefined` | Forces a specific theme and ignores user preference. |
+| `enableSystem` | `boolean` | `true` | Enables the `system` theme option. |
+| `disableTransitionOnChange` | `boolean` | `false` | Temporarily disables CSS transitions during theme changes. |
+| `enableColorScheme` | `boolean` | `true` | Sets `document.documentElement.style.colorScheme` for light or dark themes. |
+| `storageKey` | `string` | `"theme"` | Storage key used for persistence. |
+| `defaultTheme` | `string` | `"system"` when `enableSystem` is `true`, otherwise `"light"` | Theme used when nothing is stored yet. |
+| `attribute` | `Attribute \| Attribute[]` | `"class"` | Where the theme is applied on `<html>`. |
+| `value` | `Record<string, string>` | `undefined` | Maps theme names to custom DOM values. |
+| `storage` | `BuiltInStorage \| ThemeStorage` | `"localStorage"` | Persistence adapter to use. |
+
+### `attribute`
+
+`Attribute` is:
+
+```ts
+type Attribute = "class" | `data-${string}`;
+```
+
+Examples:
+
+```tsx
+<ThemeProvider attribute="class" />
+<ThemeProvider attribute="data-theme" />
+<ThemeProvider attribute={["class", "data-theme"]} />
+```
+
+## `useTheme`
+
+`useTheme()` returns the current theme API for the nearest provider.
+
+### Return Value
+
+| Field | Type | Description |
+| --- | --- | --- |
+| `theme` | `string \| undefined` | The active theme name. |
+| `setTheme` | `React.Dispatch<React.SetStateAction<string>>` | Updates the theme. |
+| `resolvedTheme` | `string \| undefined` | If `theme` is `"system"`, this is the resolved light or dark value. Otherwise it matches `theme`. |
+| `systemTheme` | `"light" \| "dark" \| undefined` | The current OS preference when `enableSystem` is enabled. |
+| `themes` | `string[]` | List of selectable themes. Includes `"system"` when system mode is enabled. |
+| `forcedTheme` | `string \| undefined` | Forced theme for the current provider, if present. |
+
+### Example
+
+```tsx
+const {
+  theme,
+  setTheme,
+  resolvedTheme,
+  systemTheme,
+  themes,
+  forcedTheme,
+} = useTheme();
+```
+
+## `ThemeStorage`
+
+Custom storage adapters must implement this interface:
+
+```ts
+interface ThemeStorage {
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+  removeItem?(key: string): void;
+  subscribe?(
+    key: string,
+    callback: (newValue: string | null) => void,
+  ): () => void;
+}
+```
+
+### Notes
+
+- `subscribe` is optional, but needed for live synchronization across tabs or windows
+- built-in `localStorage` syncs through the `storage` event
+- built-in `sessionStorage` syncs through `BroadcastChannel`
+- built-in `cookie` storage does not provide cross-tab subscription
+
+## `BuiltInStorage`
+
+```ts
+type BuiltInStorage = "localStorage" | "sessionStorage" | "cookie";
+```
+
+## Script Exports
+
+The library also exports:
+
+- `localStorageScript`
+- `sessionStorageScript`
+- `cookieStorageScript`
+
+These are the pre-hydration helpers used internally by `ThemeProvider` for built-in storage types.
+
+Their shared type is:
+
+```ts
+type ThemeScript = (
+  attribute,
+  storageKey,
+  defaultTheme,
+  forcedTheme,
+  themes,
+  value,
+  enableSystem,
+  enableColorScheme,
+) => void;
+```
+
+In normal usage you do not need to call them directly, because `ThemeProvider` handles that for you.

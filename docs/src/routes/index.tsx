@@ -122,7 +122,7 @@ function RouteComponent() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto mx-auto">
-              <Link to="/docs/showcase" className="w-full sm:w-auto">
+              <Link to="/docs/introduction" className="w-full sm:w-auto">
                 <button className="w-full sm:w-auto rounded-full px-8 py-4 bg-primary-600 hover:bg-primary-700 text-white font-semibold transition-all hover:scale-105 active:scale-95 shadow-xl shadow-primary-500/20 flex items-center justify-center gap-3">
                   Get Started <ArrowRight size={18} />
                 </button>

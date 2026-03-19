@@ -1,0 +1,71 @@
+# Hydration
+
+Themer updates the `<html>` element before React hydrates. That is how it prevents the wrong theme from flashing on first paint.
+
+Because of that, there are two hydration rules you should follow.
+
+## 1. Add `suppressHydrationWarning` To `<html>`
+
+Use the exact React prop name:
+
+```tsx
+<html lang="en" suppressHydrationWarning>
+```
+
+Why this matters:
+
+- the server may send `<html>` without the final client theme class or data attribute
+- Themer's inline script runs before hydration and updates `<html>`
+- React then sees a difference on the root element
+
+That difference is intentional, so you should suppress the warning on `<html>`.
+
+## 2. Gate Theme UI With A Hydration Hook
+
+If a component renders theme-dependent text or icons, wait until the client is hydrated before reading from `useTheme()`.
+
+With TanStack Router, use `useHydrated`:
+
+```tsx
+import { useTheme } from "@lonik/themer";
+import { useHydrated } from "@tanstack/react-router";
+
+export function ThemeToggle() {
+  const hydrated = useHydrated();
+  const { theme, setTheme } = useTheme();
+
+  if (!hydrated) {
+    return null;
+  }
+
+  return (
+    <button onClick={() => setTheme(theme === "dark" ? "light" : "dark")}>
+      {theme === "dark" ? "Switch to light" : "Switch to dark"}
+    </button>
+  );
+}
+```
+
+This avoids mismatches for UI that depends on the resolved client theme.
+
+## When You Need The Hook
+
+Use a hydration gate for components that render things like:
+
+- theme labels such as `Current theme: dark`
+- different icons for light and dark modes
+- controls that depend on `resolvedTheme` or `systemTheme`
+
+You usually do not need a gate for plain CSS styling, because that happens on `<html>` and is already handled by the pre-hydration script.
+
+## Built-In Script Behavior
+
+`ThemeProvider` automatically renders a `ThemeScript` for built-in storages:
+
+- `localStorage`
+- `sessionStorage`
+- `cookie`
+
+Those scripts read the stored theme, resolve `system`, update `<html>`, and optionally set `color-scheme` before hydration starts.
+
+If you pass a custom `ThemeStorage`, there is no built-in inline script, so hydration behavior depends on how you preload and apply the theme yourself.

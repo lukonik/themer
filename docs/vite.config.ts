@@ -21,8 +21,24 @@ const config = defineConfig({
           id: "docs",
           items: [
             {
-              label: "Showcase",
-              slug: "docs/showcase",
+              label: "Introduction",
+              slug: "docs/introduction",
+            },
+            {
+              label: "Installation",
+              slug: "docs/installation",
+            },
+            {
+              label: "Usage",
+              slug: "docs/usage",
+            },
+            {
+              label: "Hydration",
+              slug: "docs/hydration",
+            },
+            {
+              label: "Reference",
+              slug: "docs/reference",
             },
           ],
         },
@@ -36,7 +52,7 @@ const config = defineConfig({
       prerender: {
         enabled: true,
       },
-      sitemap: { enabled: true, host: "https://example.com/" },
+      sitemap: { enabled: true, host: "https://lukonik.github.io/themer/" },
     }),
     viteReact(),
   ],

@@ -1,0 +1,63 @@
+# Installation
+
+Install the package with your package manager of choice:
+
+```bash
+npm install @lonik/themer
+```
+
+```bash
+pnpm add @lonik/themer
+```
+
+```bash
+yarn add @lonik/themer
+```
+
+```bash
+bun add @lonik/themer
+```
+
+## Peer Dependencies
+
+Themer expects:
+
+- `react`
+- `react-dom`
+- `@tanstack/react-router`
+
+## Minimal Setup
+
+Wrap your app once near the root of your router tree:
+
+```tsx
+import { Outlet, createRootRoute } from "@tanstack/react-router";
+import { ThemeProvider } from "@lonik/themer";
+
+export const Route = createRootRoute({
+  component: () => (
+    <ThemeProvider>
+      <Outlet />
+    </ThemeProvider>
+  ),
+});
+```
+
+By default, Themer:
+
+- stores the selected theme in `localStorage`
+- uses `class` on `<html>`
+- supports `light`, `dark`, and `system`
+- defaults to `system` when `enableSystem` is enabled
+
+## TanStack Start Root HTML
+
+If your app renders the root HTML document, add `suppressHydrationWarning` to `<html>`:
+
+```tsx
+<html lang="en" suppressHydrationWarning>
+```
+
+The reason is simple: the theme script may update the `<html>` class or data attribute before React hydrates. That is expected behavior, but React would otherwise warn that the server markup and hydrated markup differ.
+
+The full hydration guidance is in [Hydration](/docs/hydration).
