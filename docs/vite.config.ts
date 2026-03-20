@@ -29,6 +29,10 @@ const config = defineConfig({
               slug: "docs/hydration",
             },
             {
+              label: "Tailwind",
+              slug: "docs/tailwind",
+            },
+            {
               label: "Installation",
               slug: "docs/installation",
             },

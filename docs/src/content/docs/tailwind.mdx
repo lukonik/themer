@@ -1,0 +1,26 @@
+---
+title: Tailwind
+---
+
+# Tailwind Integration
+
+Tailwind integration is as easy as it gets, just add the `@dark` variant in your main style file.
+
+```css
+@import "tailwindcss";
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+## Changing the variant attribute
+
+if you ever change the variant attribute for example to use `data-theme` attribute instead of `class` you have to change it
+`ThemeProvider` as well
+
+```css
+@import "tailwindcss";
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+```
+
+```tsx
+<ThemeProvider attribute="data-theme">...</ThemeProvider>
+```
