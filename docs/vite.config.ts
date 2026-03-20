@@ -32,6 +32,19 @@ const config = defineConfig({
               label: "Tailwind",
               slug: "docs/tailwind",
             },
+            {
+              label: "References",
+              items: [
+                {
+                  label: "ThemeProvider Reference",
+                  slug: "docs/theme-provider-reference",
+                },
+                {
+                  label: "useTheme Reference",
+                  slug: "docs/use-theme-reference",
+                },
+              ],
+            },
           ],
         },
       ],

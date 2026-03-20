@@ -1,0 +1,111 @@
+---
+title: useTheme Reference
+---
+
+# useTheme Reference
+
+`useTheme` gives you access to the current theme state and the function used to update it.
+
+```tsx
+import { useTheme } from "@lonik/themer";
+```
+
+## Signature
+
+```tsx
+function useTheme(): UseThemeProps;
+```
+
+## Example
+
+```tsx
+import { useTheme } from "@lonik/themer";
+
+export function ThemeSwitcher() {
+  const { theme, resolvedTheme, setTheme } = useTheme();
+
+  return (
+    <div>
+      <p>Selected theme: {theme}</p>
+      <p>Resolved theme: {resolvedTheme}</p>
+      <button onClick={() => setTheme("light")}>Light</button>
+      <button onClick={() => setTheme("dark")}>Dark</button>
+      <button onClick={() => setTheme("system")}>System</button>
+    </div>
+  );
+}
+```
+
+## theme
+
+Type: `string | undefined`
+
+The currently selected theme name.
+
+This is the logical value stored in state, so when system themes are enabled it can be `"system"` instead of the final applied theme.
+
+## setTheme
+
+Type: `React.Dispatch<React.SetStateAction<string>>`
+
+Updates the active theme. You can pass either a direct value or an updater function.
+
+```tsx
+setTheme("dark");
+```
+
+```tsx
+setTheme((prev) => (prev === "dark" ? "light" : "dark"));
+```
+
+When a `ThemeProvider` is active, calling `setTheme` also persists the new value to the configured storage adapter.
+
+## resolvedTheme
+
+Type: `string | undefined`
+
+The theme currently applied after resolving `"system"` to either `"light"` or `"dark"`.
+
+If the selected theme is not `"system"`, this value is the same as `theme`.
+
+Use this field when your UI needs the actual active theme rather than the stored selection.
+
+## systemTheme
+
+Type: `"light" | "dark" | undefined`
+
+The current operating system color scheme preference.
+
+This value is only available when `enableSystem` is `true`. Unlike `resolvedTheme`, it reflects the system preference even if the active theme is manually set to something else.
+
+## themes
+
+Type: `string[]`
+
+The list of available theme names exposed by the provider.
+
+When `enableSystem` is `true`, this array includes `"system"` in addition to the themes configured on `ThemeProvider`.
+
+This is useful for building a theme picker dynamically.
+
+```tsx
+const { themes } = useTheme();
+
+return (
+  <select>
+    {themes.map((themeName) => (
+      <option key={themeName} value={themeName}>
+        {themeName}
+      </option>
+    ))}
+  </select>
+);
+```
+
+## forcedTheme
+
+Type: `string | undefined`
+
+The forced theme currently applied by `ThemeProvider`, if one is set.
+
+If this value is defined, the provider will keep applying that theme to the DOM even if you call `setTheme`. That lets your UI detect that the theme is locked for the current page.
