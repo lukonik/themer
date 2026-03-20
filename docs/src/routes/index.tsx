@@ -166,7 +166,7 @@ function RouteComponent() {
           {/* Hero Image */}
           <div className="flex-1 w-full max-w-xl lg:max-w-2xl relative hidden lg:block">
             <div className="relative lg:rounded-3xl overflow-hidden lg:border lg:border-default-200/50 lg:bg-default/40 lg:ring-1 lg:ring-default-900/5 lg:shadow-2xl group flex items-center justify-center">
-              <div className="lg:block hidden absolute inset-0 bg-linear-to-br from-white/40 to-transparent pointer-events-none z-10 mix-blend-overlay" />
+              <div className="lg:block hidden absolute inset-0 bg-linear-to-br from-default/40 to-transparent pointer-events-none z-10 mix-blend-overlay" />
               <div className="w-full h-[350px] lg:h-150 flex items-center justify-center lg:p-16">
                 <Logo
                   alt="Prestige Logo"
