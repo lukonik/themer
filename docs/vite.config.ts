@@ -32,18 +32,6 @@ const config = defineConfig({
               label: "Tailwind",
               slug: "docs/tailwind",
             },
-            {
-              label: "Installation",
-              slug: "docs/installation",
-            },
-            {
-              label: "Usage",
-              slug: "docs/usage",
-            },
-            {
-              label: "Reference",
-              slug: "docs/reference",
-            },
           ],
         },
       ],

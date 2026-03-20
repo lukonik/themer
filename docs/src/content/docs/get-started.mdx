@@ -1,14 +1,14 @@
 # Get Started
 
-Themer is a theme management library built for Tanstack Start and Tanstack Router, most of the time you will use it for adding
-Dark and Light mode for your App.
+Themer is a theme management library built for TanStack Start and TanStack Router. In most cases, you will use it to add
+light and dark mode support to your app.
 
-This library uses Tanstack API, so it wont work with other frameworks. [next-themes](https://github.com/pacocoursey/next-themes) is the alternative
-for using it with NextJS app and it is the inspiration of this library, so kudos to them.
+This library uses the TanStack APIs, so it will not work with other frameworks. If you are using Next.js,
+[next-themes](https://github.com/pacocoursey/next-themes) is a good alternative. It also inspired this library.
 
 ## Installation
 
-Themer assumes you are inside Tanstack App already, for installation run:
+Themer assumes you already have a TanStack app set up. To install it, run:
 
 ```bash
  npm install @lonik/themer -s
@@ -18,7 +18,7 @@ Themer assumes you are inside Tanstack App already, for installation run:
 
 ### ThemeProvider
 
-Add `ThemeProvider` inside `__root.tsx` file to wrap `Outlet` component
+Add `ThemeProvider` to your `__root.tsx` file and wrap the `Outlet` component:
 
 ```tsx
 import { ThemeProvider } from "@lonik/themer";
@@ -40,12 +40,12 @@ export const Route = createRootRoute({
 });
 ```
 
-After that `ThemeProvider` will manage to add proper attributes to the root element (`html` in this case) to toggle between themes.
+After that, `ThemeProvider` will apply the correct attributes to the root element (`html` in this case) so it can switch between themes.
 
 ### Styling
 
-By Default `ThemeProvider` will add Theme `class` to the root element. So you can style elements based on this criteria. For example
-to change the body background based on theme modes we can write
+By default, `ThemeProvider` adds a theme `class` to the root element. You can style elements based on that class. For example,
+to change the page background for each theme, you can write:
 
 ```css
 :root.light {
@@ -59,7 +59,7 @@ to change the body background based on theme modes we can write
 
 ### Toggle Theme
 
-to toggle the theme you can use `useTheme` hook
+To toggle the theme, you can use the `useTheme` hook:
 
 ```tsx
 import { useTheme } from "@lonik/themer";
@@ -103,4 +103,4 @@ export function Theme() {
 }
 ```
 
-And that's it. You can easily tweak the library with props in `ThemeProvider`.
+That is all you need to get started. You can further customize the library with the props available on `ThemeProvider`.
