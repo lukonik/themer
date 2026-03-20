@@ -1,0 +1,91 @@
+---
+title: Hydration
+---
+
+# Hydration
+
+When you add Themer, you may see a hydration error like this:
+
+:::danger
+A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+  ...
+  It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+:::
+
+In this case, that is **perfectly normal**. Here is why.
+
+## What is a hydration error?
+
+A hydration error happens when the app is first rendered on the server and outputs HTML, then re-rendered in the browser,
+and the browser output does not match the server output. Most of the time, you should fix these mismatches.
+Sometimes, however, they are expected. Theme switching is one of those cases.
+
+## Why does Themer cause a hydration error?
+
+Themer uses browser storage such as `sessionStorage` or `localStorage`. When the server renders your app, it does not know
+which theme the user previously selected, so the root element will not have the final theme modifier applied. When the browser
+hydrates the app, the correct theme modifier is applied, which triggers the hydration warning.
+
+That behavior is expected because the server cannot know the theme value ahead of time.
+
+### Solution
+
+To handle this, add the `suppressHydrationWarning` attribute to the root element:
+
+```tsx
+  ...
+  <html suppressHydrationWarning>
+  ...
+  </html>
+```
+
+`suppressHydrationWarning` only silences the warning on the element where it is applied. Child elements will still warn if a
+real hydration mismatch happens there.
+
+## Hydration for theme switch components
+
+Components that use the `useTheme` hook can run into the same issue. Because these components may render multiple DOM elements,
+the easiest fix is to wrap them in the
+[ClientOnly](https://tanstack.com/start/latest/docs/framework/react/guide/execution-model#client-only-execution) component.
+This renders the UI only on the client, which is appropriate for theme toggles. For example:
+
+```tsx
+import { useTheme } from "@lonik/themer";
+import { ClientOnly } from "@tanstack/react-router";
+
+export default function Theme() {
+  const { theme, setTheme } = useTheme();
+
+  function changeTheme() {
+    setTheme(theme === "dark" ? "light" : "dark");
+  }
+
+  return (
+    <ClientOnly>
+      <button onClick={changeTheme}> Current theme is: {theme} </button>
+    </ClientOnly>
+  );
+}
+```
+
+That removes the hydration warning for the theme switcher.
+
+The last hydration-related topic is the flash issue, also called Flash of Unstyled Content (FOUC), and how Themer handles it automatically.
+
+### Flash of Unstyled Content (FOUC) issue
+
+Because the server does not know the user's preferred theme, it returns the default theme first. The browser then renders the page,
+and React starts hydration and applies the correct theme value. This means the user may briefly see the default theme, such as a white page,
+before it switches to the dark theme.
+
+Even if the change is very fast, it still creates a poor visual experience.
+
+The good news is that Themer handles this automatically. It uses
+[ScriptOnce](https://tanstack.com/router/v1/docs/guide/document-head-management#inline-scripts-with-scriptonce)
+internally to load the saved theme and apply it to the root element before the browser paints the page, even before hydration begins.
+As a result, the user sees the correct theme immediately.

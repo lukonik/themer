@@ -1,0 +1,205 @@
+---
+title: ThemeProvider Reference
+---
+
+# ThemeProvider Reference
+
+`ThemeProvider` is the root component that manages theme state.
+```tsx
+import { ThemeProvider } from "@lonik/themer";
+```
+
+## Signature
+
+```tsx
+function ThemeProvider(props: ThemeProviderProps): React.ReactNode;
+```
+
+## Example
+
+```tsx
+import { ThemeProvider } from "@lonik/themer";
+
+export function AppShell() {
+  return (
+    <ThemeProvider defaultTheme="system" storage="localStorage">
+      <App />
+    </ThemeProvider>
+  );
+}
+```
+
+## children
+
+Type: `React.ReactNode`
+
+The content wrapped by the provider. This is usually your app shell or route outlet.
+
+## themes
+
+Type: `string[]`
+
+Default: `["light", "dark"]`
+
+The list of theme names available to your app. These names are also exposed by `useTheme().themes`.
+
+If `enableSystem` is `true`, Themer adds `"system"` to the list returned by `useTheme`, but you do not need to include it here yourself.
+
+```tsx
+<ThemeProvider themes={["light", "dark", "ocean"]}>
+  <App />
+</ThemeProvider>
+```
+
+## forcedTheme
+
+Type: `string | undefined`
+
+Default: `undefined`
+
+Forces a specific theme for the current provider. When this prop is set, the forced theme is always applied to the DOM regardless of the user's stored preference.
+
+This is useful for pages that should always render with a specific theme.
+
+```tsx
+<ThemeProvider forcedTheme="dark">
+  <LandingPage />
+</ThemeProvider>
+```
+
+## enableSystem
+
+Type: `boolean | undefined`
+
+Default: `true`
+
+Controls whether the `"system"` theme is supported. When enabled, Themer can resolve the active theme from `prefers-color-scheme`.
+
+If this is `false`, the default theme falls back to `"light"` unless you provide `defaultTheme` explicitly.
+
+```tsx
+<ThemeProvider enableSystem={false}>
+  <App />
+</ThemeProvider>
+```
+
+## disableTransitionOnChange
+
+Type: `boolean | undefined`
+
+Default: `false`
+
+Temporarily disables CSS transitions while the theme is changing. This helps prevent flicker or animated color transitions during a theme switch.
+
+```tsx
+<ThemeProvider disableTransitionOnChange>
+  <App />
+</ThemeProvider>
+```
+
+## enableColorScheme
+
+Type: `boolean | undefined`
+
+Default: `true`
+
+Controls whether Themer updates `document.documentElement.style.colorScheme`. This helps built-in browser UI such as form controls match the active light or dark theme.
+
+If the resolved theme is neither `"light"` nor `"dark"`, Themer falls back to the `defaultTheme` value when possible.
+
+## storageKey
+
+Type: `string | undefined`
+
+Default: `"theme"`
+
+The storage key used to persist the user's theme selection.
+
+```tsx
+<ThemeProvider storageKey="app-theme">
+  <App />
+</ThemeProvider>
+```
+
+## defaultTheme
+
+Type: `string | undefined`
+
+Default: `"system"` when `enableSystem` is `true`, otherwise `"light"`
+
+The theme used on the first render when no stored preference exists.
+
+This value should match one of your configured theme names, or `"system"` when system themes are enabled.
+
+```tsx
+<ThemeProvider defaultTheme="dark">
+  <App />
+</ThemeProvider>
+```
+
+## attribute
+
+Type:
+
+```ts
+"class" | `data-${string}` | Array<"class" | `data-${string}`> | undefined
+```
+
+Default: `"class"`
+
+Controls which HTML attribute Themer updates on the root element. You can use a class, a data attribute, or multiple attributes at once.
+
+```tsx
+<ThemeProvider attribute="data-theme">
+  <App />
+</ThemeProvider>
+```
+
+```tsx
+<ThemeProvider attribute={["class", "data-theme"]}>
+  <App />
+</ThemeProvider>
+```
+
+## value
+
+Type: `Record<string, string> | undefined`
+
+Default: `undefined`
+
+Maps your logical theme names to different values written to the configured attribute.
+
+For example, you can keep `theme === "dark"` in your app state while writing `night` to the DOM.
+
+```tsx
+<ThemeProvider
+  value={{
+    light: "day",
+    dark: "night",
+  }}
+>
+  <App />
+</ThemeProvider>
+```
+
+## storage
+
+Type: `"localStorage" | "sessionStorage" | "cookie" | ThemeStorage | undefined`
+
+Default: `"localStorage"`
+
+Controls where Themer persists the selected theme.
+
+Built-in options:
+
+- `localStorage`: persists across browser sessions
+- `sessionStorage`: persists for the current tab session
+- `cookie`: stores the theme in a cookie
+
+You can also provide a custom `ThemeStorage` adapter.
+
+```tsx
+<ThemeProvider storage="sessionStorage">
+  <App />
+</ThemeProvider>
+```
