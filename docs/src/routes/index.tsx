@@ -19,6 +19,29 @@ import config from "virtual:prestige/config";
 import Logo from "../assets/logo.png?$oh";
 
 export const Route = createFileRoute("/")({
+  head: () => {
+    const title = "Themer | Theme management for TanStack Router";
+    const description =
+      "Add light, dark, system, and custom themes to TanStack Router and TanStack Start apps with SSR support and zero flash of unstyled content.";
+    const image = "https://lukonik.github.io/themer/logo.png";
+    const url = "https://lukonik.github.io/themer/";
+
+    return {
+      meta: [
+        { title },
+        { name: "description", content: description },
+        { property: "og:title", content: title },
+        { property: "og:description", content: description },
+        { property: "og:url", content: url },
+        { property: "og:image", content: image },
+        { property: "og:image:alt", content: "Themer logo" },
+        { name: "twitter:title", content: title },
+        { name: "twitter:description", content: description },
+        { name: "twitter:image", content: image },
+      ],
+      links: [{ rel: "canonical", href: url }],
+    };
+  },
   component: RouteComponent,
 });
 
