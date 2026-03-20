@@ -1,0 +1,146 @@
+---
+title: Multi Theming
+---
+
+# Multi Theming
+
+Themer is not limited to just `light` and `dark`. You can define as many theme values as your app needs.
+
+```tsx
+<ThemeProvider themes={["light", "dark", "ocean", "forest", "sunset"]}>
+  <App />
+</ThemeProvider>
+```
+
+## Defining custom themes
+
+Use the `themes` prop on `ThemeProvider` to define the allowed theme names:
+
+```tsx
+<ThemeProvider
+  themes={["light", "dark", "ocean", "forest", "sunset"]}
+  defaultTheme="ocean"
+>
+  <App />
+</ThemeProvider>
+```
+
+Each value in `themes` becomes a valid theme that can be selected through `setTheme`.
+
+## Styling custom themes
+
+By default, Themer writes the active theme name to the root element as a class.
+
+```css
+:root.ocean {
+  --bg: #041c32;
+  --fg: #ecf8ff;
+}
+
+:root.forest {
+  --bg: #102418;
+  --fg: #e9f7e9;
+}
+
+:root.sunset {
+  --bg: #3d1f1f;
+  --fg: #fff1e6;
+}
+```
+
+You can also use a data attribute instead:
+
+```tsx
+<ThemeProvider
+  attribute="data-theme"
+  themes={["light", "dark", "ocean", "forest", "sunset"]}
+>
+  <App />
+</ThemeProvider>
+```
+
+```css
+[data-theme="ocean"] {
+  --bg: #041c32;
+}
+```
+
+## Building a theme switcher
+
+The `themes` array returned by `useTheme` makes it easy to render a picker dynamically:
+
+```tsx
+import { useTheme } from "@lonik/themer";
+
+export function ThemePicker() {
+  const { theme, themes, setTheme } = useTheme();
+
+  return (
+    <select value={theme} onChange={(e) => setTheme(e.target.value)}>
+      {themes.map((themeName) => (
+        <option key={themeName} value={themeName}>
+          {themeName}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+## Using custom DOM values
+
+If you want your app state to use one set of names and your DOM to use another, use the `value` prop:
+
+```tsx
+<ThemeProvider
+  themes={["light", "dark", "ocean"]}
+  value={{
+    light: "theme-light",
+    dark: "theme-dark",
+    ocean: "theme-ocean",
+  }}
+>
+  <App />
+</ThemeProvider>
+```
+
+This keeps `theme === "ocean"` in React state while applying `theme-ocean` to the root element.
+
+## Choosing a default theme
+
+Set `defaultTheme` to the theme you want to use when the user has not selected one yet:
+
+```tsx
+<ThemeProvider
+  themes={["light", "dark", "ocean", "forest"]}
+  defaultTheme="forest"
+>
+  <App />
+</ThemeProvider>
+```
+
+Make sure `defaultTheme` matches one of your configured theme names.
+
+## System theme with multiple themes
+
+If `enableSystem` is `true`, `useTheme().themes` also includes `"system"`.
+
+That works best when your theme set includes `light` and `dark`, because the system preference resolves to one of those two values.
+
+If your app only uses custom names such as `ocean`, `forest`, and `sunset`, you will usually want to disable system themes:
+
+```tsx
+<ThemeProvider
+  themes={["ocean", "forest", "sunset"]}
+  defaultTheme="ocean"
+  enableSystem={false}
+>
+  <App />
+</ThemeProvider>
+```
+
+## color-scheme note
+
+The browser `color-scheme` style only understands light and dark modes.
+
+That means built-in browser UI such as form controls will automatically track `light` and `dark`, but fully custom theme names do not map to a browser color scheme by themselves.

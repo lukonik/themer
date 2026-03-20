@@ -15,6 +15,8 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as prestigeDocsUseThemeReferenceRouteImport } from './routes/(prestige)/docs.use-theme-reference'
 import { Route as prestigeDocsThemeProviderReferenceRouteImport } from './routes/(prestige)/docs.theme-provider-reference'
 import { Route as prestigeDocsTailwindRouteImport } from './routes/(prestige)/docs.tailwind'
+import { Route as prestigeDocsStorageRouteImport } from './routes/(prestige)/docs.storage'
+import { Route as prestigeDocsMultiThemingRouteImport } from './routes/(prestige)/docs.multi-theming'
 import { Route as prestigeDocsHydrationRouteImport } from './routes/(prestige)/docs.hydration'
 import { Route as prestigeDocsGetStartedRouteImport } from './routes/(prestige)/docs.get-started'
 
@@ -65,6 +67,24 @@ const prestigeDocsTailwindRoute = prestigeDocsTailwindRouteImport
   .lazy(() =>
     import('./routes/(prestige)/docs.tailwind.lazy').then((d) => d.Route),
   )
+const prestigeDocsStorageRoute = prestigeDocsStorageRouteImport
+  .update({
+    id: '/storage',
+    path: '/storage',
+    getParentRoute: () => prestigeDocsLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(prestige)/docs.storage.lazy').then((d) => d.Route),
+  )
+const prestigeDocsMultiThemingRoute = prestigeDocsMultiThemingRouteImport
+  .update({
+    id: '/multi-theming',
+    path: '/multi-theming',
+    getParentRoute: () => prestigeDocsLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(prestige)/docs.multi-theming.lazy').then((d) => d.Route),
+  )
 const prestigeDocsHydrationRoute = prestigeDocsHydrationRouteImport
   .update({
     id: '/hydration',
@@ -89,6 +109,8 @@ export interface FileRoutesByFullPath {
   '/docs': typeof prestigeDocsLazyRouteWithChildren
   '/docs/get-started': typeof prestigeDocsGetStartedRoute
   '/docs/hydration': typeof prestigeDocsHydrationRoute
+  '/docs/multi-theming': typeof prestigeDocsMultiThemingRoute
+  '/docs/storage': typeof prestigeDocsStorageRoute
   '/docs/tailwind': typeof prestigeDocsTailwindRoute
   '/docs/theme-provider-reference': typeof prestigeDocsThemeProviderReferenceRoute
   '/docs/use-theme-reference': typeof prestigeDocsUseThemeReferenceRoute
@@ -98,6 +120,8 @@ export interface FileRoutesByTo {
   '/docs': typeof prestigeDocsLazyRouteWithChildren
   '/docs/get-started': typeof prestigeDocsGetStartedRoute
   '/docs/hydration': typeof prestigeDocsHydrationRoute
+  '/docs/multi-theming': typeof prestigeDocsMultiThemingRoute
+  '/docs/storage': typeof prestigeDocsStorageRoute
   '/docs/tailwind': typeof prestigeDocsTailwindRoute
   '/docs/theme-provider-reference': typeof prestigeDocsThemeProviderReferenceRoute
   '/docs/use-theme-reference': typeof prestigeDocsUseThemeReferenceRoute
@@ -108,6 +132,8 @@ export interface FileRoutesById {
   '/(prestige)/docs': typeof prestigeDocsLazyRouteWithChildren
   '/(prestige)/docs/get-started': typeof prestigeDocsGetStartedRoute
   '/(prestige)/docs/hydration': typeof prestigeDocsHydrationRoute
+  '/(prestige)/docs/multi-theming': typeof prestigeDocsMultiThemingRoute
+  '/(prestige)/docs/storage': typeof prestigeDocsStorageRoute
   '/(prestige)/docs/tailwind': typeof prestigeDocsTailwindRoute
   '/(prestige)/docs/theme-provider-reference': typeof prestigeDocsThemeProviderReferenceRoute
   '/(prestige)/docs/use-theme-reference': typeof prestigeDocsUseThemeReferenceRoute
@@ -119,6 +145,8 @@ export interface FileRouteTypes {
     | '/docs'
     | '/docs/get-started'
     | '/docs/hydration'
+    | '/docs/multi-theming'
+    | '/docs/storage'
     | '/docs/tailwind'
     | '/docs/theme-provider-reference'
     | '/docs/use-theme-reference'
@@ -128,6 +156,8 @@ export interface FileRouteTypes {
     | '/docs'
     | '/docs/get-started'
     | '/docs/hydration'
+    | '/docs/multi-theming'
+    | '/docs/storage'
     | '/docs/tailwind'
     | '/docs/theme-provider-reference'
     | '/docs/use-theme-reference'
@@ -137,6 +167,8 @@ export interface FileRouteTypes {
     | '/(prestige)/docs'
     | '/(prestige)/docs/get-started'
     | '/(prestige)/docs/hydration'
+    | '/(prestige)/docs/multi-theming'
+    | '/(prestige)/docs/storage'
     | '/(prestige)/docs/tailwind'
     | '/(prestige)/docs/theme-provider-reference'
     | '/(prestige)/docs/use-theme-reference'
@@ -184,6 +216,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof prestigeDocsTailwindRouteImport
       parentRoute: typeof prestigeDocsLazyRoute
     }
+    '/(prestige)/docs/storage': {
+      id: '/(prestige)/docs/storage'
+      path: '/storage'
+      fullPath: '/docs/storage'
+      preLoaderRoute: typeof prestigeDocsStorageRouteImport
+      parentRoute: typeof prestigeDocsLazyRoute
+    }
+    '/(prestige)/docs/multi-theming': {
+      id: '/(prestige)/docs/multi-theming'
+      path: '/multi-theming'
+      fullPath: '/docs/multi-theming'
+      preLoaderRoute: typeof prestigeDocsMultiThemingRouteImport
+      parentRoute: typeof prestigeDocsLazyRoute
+    }
     '/(prestige)/docs/hydration': {
       id: '/(prestige)/docs/hydration'
       path: '/hydration'
@@ -204,6 +250,8 @@ declare module '@tanstack/react-router' {
 interface prestigeDocsLazyRouteChildren {
   prestigeDocsGetStartedRoute: typeof prestigeDocsGetStartedRoute
   prestigeDocsHydrationRoute: typeof prestigeDocsHydrationRoute
+  prestigeDocsMultiThemingRoute: typeof prestigeDocsMultiThemingRoute
+  prestigeDocsStorageRoute: typeof prestigeDocsStorageRoute
   prestigeDocsTailwindRoute: typeof prestigeDocsTailwindRoute
   prestigeDocsThemeProviderReferenceRoute: typeof prestigeDocsThemeProviderReferenceRoute
   prestigeDocsUseThemeReferenceRoute: typeof prestigeDocsUseThemeReferenceRoute
@@ -212,6 +260,8 @@ interface prestigeDocsLazyRouteChildren {
 const prestigeDocsLazyRouteChildren: prestigeDocsLazyRouteChildren = {
   prestigeDocsGetStartedRoute: prestigeDocsGetStartedRoute,
   prestigeDocsHydrationRoute: prestigeDocsHydrationRoute,
+  prestigeDocsMultiThemingRoute: prestigeDocsMultiThemingRoute,
+  prestigeDocsStorageRoute: prestigeDocsStorageRoute,
   prestigeDocsTailwindRoute: prestigeDocsTailwindRoute,
   prestigeDocsThemeProviderReferenceRoute:
     prestigeDocsThemeProviderReferenceRoute,

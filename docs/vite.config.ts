@@ -33,6 +33,14 @@ const config = defineConfig({
               slug: "docs/tailwind",
             },
             {
+              label: "Multi Theming",
+              slug: "docs/multi-theming",
+            },
+            {
+              label: "Storage",
+              slug: "docs/storage",
+            },
+            {
               label: "References",
               items: [
                 {

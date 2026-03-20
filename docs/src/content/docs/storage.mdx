@@ -1,0 +1,205 @@
+---
+title: Storage
+---
+
+# Storage
+
+Themer persists the selected theme through the `storage` prop on `ThemeProvider`.
+
+```tsx
+<ThemeProvider storage="localStorage">
+  <App />
+</ThemeProvider>
+```
+
+## What storage does
+
+The configured storage adapter is responsible for:
+
+- reading the saved theme on startup
+- writing the selected theme when `setTheme` is called
+- optionally subscribing to changes from other tabs or contexts
+
+Themer ships with three built-in storage options:
+
+- `localStorage`
+- `sessionStorage`
+- `cookie`
+
+You can also provide your own custom storage adapter.
+
+## localStorage
+
+`localStorage` is the default storage.
+
+```tsx
+<ThemeProvider storage="localStorage">
+  <App />
+</ThemeProvider>
+```
+
+Use it when you want the theme to persist across browser sessions.
+
+Behavior:
+
+- persists after the browser is closed
+- syncs between tabs through the native `storage` event
+- supports the built-in pre-hydration script, so Themer can apply the theme before React hydrates
+
+## sessionStorage
+
+`sessionStorage` keeps the theme only for the current tab session.
+
+```tsx
+<ThemeProvider storage="sessionStorage">
+  <App />
+</ThemeProvider>
+```
+
+Use it when the theme should reset after the tab or browser session ends.
+
+Behavior:
+
+- persists only for the current session
+- uses `BroadcastChannel` for cross-tab updates, because `sessionStorage` does not emit native cross-tab storage events
+- supports the built-in pre-hydration script
+
+## cookie
+
+`cookie` stores the selected theme in `document.cookie`.
+
+```tsx
+<ThemeProvider storage="cookie" storageKey="theme">
+  <App />
+</ThemeProvider>
+```
+
+Use it when cookies fit your app's persistence model or when you want a cookie-based theme value.
+
+Behavior:
+
+- persists using a cookie with `path=/`, `max-age=31536000`, and `SameSite=Lax`
+- does not include built-in cross-tab subscription logic
+- supports the built-in pre-hydration script
+
+## Built-in storage comparison
+
+| Storage | Persists across sessions | Cross-tab sync | Pre-hydration script |
+| --- | --- | --- | --- |
+| `localStorage` | Yes | Yes | Yes |
+| `sessionStorage` | No | Yes, via `BroadcastChannel` | Yes |
+| `cookie` | Yes | No built-in subscribe | Yes |
+
+## Using a custom storage adapter
+
+Pass a custom object that implements the `ThemeStorage` interface:
+
+```tsx
+import { ThemeProvider, type ThemeStorage } from "@lonik/themer";
+
+const storage: ThemeStorage = {
+  getItem(key) {
+    return null;
+  },
+  setItem(key, value) {},
+};
+
+<ThemeProvider storage={storage}>
+  <App />
+</ThemeProvider>;
+```
+
+## ThemeStorage interface
+
+Your adapter should implement the following shape:
+
+```ts
+interface ThemeStorage {
+  getItem(key: string): string | null;
+  setItem(key: string, value: string): void;
+  removeItem?(key: string): void;
+  subscribe?(
+    key: string,
+    callback: (newValue: string | null) => void,
+  ): () => void;
+}
+```
+
+## getItem
+
+Called when Themer initializes on the client. Return the stored theme value or `null` if no value exists.
+
+## setItem
+
+Called whenever the active theme changes. Store the new value here.
+
+## removeItem
+
+Optional. Implement this if your storage supports explicit deletion.
+
+Themer does not require it for normal operation, but it is part of the public storage contract.
+
+## subscribe
+
+Optional. Use this when your storage can notify other tabs, windows, or contexts that the theme changed.
+
+If you provide `subscribe`, return a cleanup function that removes the listener.
+
+This enables Themer's cross-tab synchronization behavior for your custom adapter.
+
+## Custom storage example
+
+Here is a simple adapter backed by an in-memory store:
+
+```tsx
+import { ThemeProvider, type ThemeStorage } from "@lonik/themer";
+
+const values = new Map<string, string>();
+const listeners = new Map<string, Set<(value: string | null) => void>>();
+
+const memoryStorage: ThemeStorage = {
+  getItem(key) {
+    return values.get(key) ?? null;
+  },
+  setItem(key, value) {
+    values.set(key, value);
+    listeners.get(key)?.forEach((listener) => listener(value));
+  },
+  removeItem(key) {
+    values.delete(key);
+    listeners.get(key)?.forEach((listener) => listener(null));
+  },
+  subscribe(key, callback) {
+    const set = listeners.get(key) ?? new Set();
+    set.add(callback);
+    listeners.set(key, set);
+
+    return () => {
+      set.delete(callback);
+      if (set.size === 0) {
+        listeners.delete(key);
+      }
+    };
+  },
+};
+
+export function AppShell() {
+  return (
+    <ThemeProvider storage={memoryStorage}>
+      <App />
+    </ThemeProvider>
+  );
+}
+```
+
+## Important limitation for custom storage
+
+Custom storage adapters work at runtime, but they do not have a built-in inline script for pre-hydration theme application.
+
+That means:
+
+- persistence still works once React runs on the client
+- theme changes still work normally
+- the automatic FOUC prevention script is only available for the built-in `localStorage`, `sessionStorage`, and `cookie` storages
+
+If you need built-in no-flash behavior, use one of those three storage modes.
