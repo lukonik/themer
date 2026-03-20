@@ -114,7 +114,7 @@ function RouteComponent() {
                 TanStack App
                 <img
                   className="w-5 h-5 ml-1"
-                  src="/tanstack.png"
+                  src="/themer/tanstack.png"
                   alt="Tanstack logo"
                 />
               </span>
