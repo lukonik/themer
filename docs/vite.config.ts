@@ -10,6 +10,7 @@ import tailwindcss from "@tailwindcss/vite";
 import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 const config = defineConfig({
+  base: "/themer/",
   plugins: [
     ohImage({
       outDir: ".output/public",
@@ -28,17 +29,23 @@ const config = defineConfig({
               label: "Hydration",
               slug: "docs/hydration",
             },
+
             {
-              label: "Tailwind",
-              slug: "docs/tailwind",
-            },
-            {
-              label: "Multi Theming",
-              slug: "docs/multi-theming",
-            },
-            {
-              label: "Storage",
-              slug: "docs/storage",
+              label: "Guides",
+              items: [
+                {
+                  label: "Tailwind",
+                  slug: "docs/tailwind",
+                },
+                {
+                  label: "Multi Theming",
+                  slug: "docs/multi-theming",
+                },
+                {
+                  label: "Storage",
+                  slug: "docs/storage",
+                },
+              ],
             },
             {
               label: "References",
@@ -58,12 +65,17 @@ const config = defineConfig({
       ],
     }),
     devtools(),
-    nitro({ rollupConfig: { external: [/^@sentry\//] }, renderer: false }),
+    nitro({
+      rollupConfig: { external: [/^@sentry\//] },
+      renderer: false,
+      baseURL: "/themer",
+    }),
     tsconfigPaths({ projects: ["./tsconfig.json"] }),
     tailwindcss(),
     tanstackStart({
       prerender: {
         enabled: true,
+        crawlLinks: true,
       },
       sitemap: { enabled: true, host: "https://lukonik.github.io/themer/" },
     }),
