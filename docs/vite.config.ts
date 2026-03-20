@@ -29,7 +29,19 @@ const config = defineConfig({
               label: "Hydration",
               slug: "docs/hydration",
             },
-
+            {
+              label: "References",
+              items: [
+                {
+                  label: "ThemeProvider Reference",
+                  slug: "docs/theme-provider-reference",
+                },
+                {
+                  label: "useTheme Reference",
+                  slug: "docs/use-theme-reference",
+                },
+              ],
+            },
             {
               label: "Guides",
               items: [
@@ -44,19 +56,6 @@ const config = defineConfig({
                 {
                   label: "Storage",
                   slug: "docs/storage",
-                },
-              ],
-            },
-            {
-              label: "References",
-              items: [
-                {
-                  label: "ThemeProvider Reference",
-                  slug: "docs/theme-provider-reference",
-                },
-                {
-                  label: "useTheme Reference",
-                  slug: "docs/use-theme-reference",
                 },
               ],
             },
