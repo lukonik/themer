@@ -21,8 +21,12 @@ const config = defineConfig({
           id: "docs",
           items: [
             {
-              label: "Introduction",
-              slug: "docs/introduction",
+              label: "Get Started",
+              slug: "docs/get-started",
+            },
+            {
+              label: "Hydration",
+              slug: "docs/hydration",
             },
             {
               label: "Installation",
@@ -31,10 +35,6 @@ const config = defineConfig({
             {
               label: "Usage",
               slug: "docs/usage",
-            },
-            {
-              label: "Hydration",
-              slug: "docs/hydration",
             },
             {
               label: "Reference",

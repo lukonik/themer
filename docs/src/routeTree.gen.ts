@@ -14,9 +14,9 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as prestigeDocsUsageRouteImport } from './routes/(prestige)/docs.usage'
 import { Route as prestigeDocsReferenceRouteImport } from './routes/(prestige)/docs.reference'
-import { Route as prestigeDocsIntroductionRouteImport } from './routes/(prestige)/docs.introduction'
 import { Route as prestigeDocsInstallationRouteImport } from './routes/(prestige)/docs.installation'
 import { Route as prestigeDocsHydrationRouteImport } from './routes/(prestige)/docs.hydration'
+import { Route as prestigeDocsGetStartedRouteImport } from './routes/(prestige)/docs.get-started'
 
 const prestigeDocsLazyRouteImport = createFileRoute('/(prestige)/docs')()
 
@@ -50,15 +50,6 @@ const prestigeDocsReferenceRoute = prestigeDocsReferenceRouteImport
   .lazy(() =>
     import('./routes/(prestige)/docs.reference.lazy').then((d) => d.Route),
   )
-const prestigeDocsIntroductionRoute = prestigeDocsIntroductionRouteImport
-  .update({
-    id: '/introduction',
-    path: '/introduction',
-    getParentRoute: () => prestigeDocsLazyRoute,
-  } as any)
-  .lazy(() =>
-    import('./routes/(prestige)/docs.introduction.lazy').then((d) => d.Route),
-  )
 const prestigeDocsInstallationRoute = prestigeDocsInstallationRouteImport
   .update({
     id: '/installation',
@@ -77,22 +68,31 @@ const prestigeDocsHydrationRoute = prestigeDocsHydrationRouteImport
   .lazy(() =>
     import('./routes/(prestige)/docs.hydration.lazy').then((d) => d.Route),
   )
+const prestigeDocsGetStartedRoute = prestigeDocsGetStartedRouteImport
+  .update({
+    id: '/get-started',
+    path: '/get-started',
+    getParentRoute: () => prestigeDocsLazyRoute,
+  } as any)
+  .lazy(() =>
+    import('./routes/(prestige)/docs.get-started.lazy').then((d) => d.Route),
+  )
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/docs': typeof prestigeDocsLazyRouteWithChildren
+  '/docs/get-started': typeof prestigeDocsGetStartedRoute
   '/docs/hydration': typeof prestigeDocsHydrationRoute
   '/docs/installation': typeof prestigeDocsInstallationRoute
-  '/docs/introduction': typeof prestigeDocsIntroductionRoute
   '/docs/reference': typeof prestigeDocsReferenceRoute
   '/docs/usage': typeof prestigeDocsUsageRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/docs': typeof prestigeDocsLazyRouteWithChildren
+  '/docs/get-started': typeof prestigeDocsGetStartedRoute
   '/docs/hydration': typeof prestigeDocsHydrationRoute
   '/docs/installation': typeof prestigeDocsInstallationRoute
-  '/docs/introduction': typeof prestigeDocsIntroductionRoute
   '/docs/reference': typeof prestigeDocsReferenceRoute
   '/docs/usage': typeof prestigeDocsUsageRoute
 }
@@ -100,9 +100,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/(prestige)/docs': typeof prestigeDocsLazyRouteWithChildren
+  '/(prestige)/docs/get-started': typeof prestigeDocsGetStartedRoute
   '/(prestige)/docs/hydration': typeof prestigeDocsHydrationRoute
   '/(prestige)/docs/installation': typeof prestigeDocsInstallationRoute
-  '/(prestige)/docs/introduction': typeof prestigeDocsIntroductionRoute
   '/(prestige)/docs/reference': typeof prestigeDocsReferenceRoute
   '/(prestige)/docs/usage': typeof prestigeDocsUsageRoute
 }
@@ -111,27 +111,27 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/docs'
+    | '/docs/get-started'
     | '/docs/hydration'
     | '/docs/installation'
-    | '/docs/introduction'
     | '/docs/reference'
     | '/docs/usage'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/docs'
+    | '/docs/get-started'
     | '/docs/hydration'
     | '/docs/installation'
-    | '/docs/introduction'
     | '/docs/reference'
     | '/docs/usage'
   id:
     | '__root__'
     | '/'
     | '/(prestige)/docs'
+    | '/(prestige)/docs/get-started'
     | '/(prestige)/docs/hydration'
     | '/(prestige)/docs/installation'
-    | '/(prestige)/docs/introduction'
     | '/(prestige)/docs/reference'
     | '/(prestige)/docs/usage'
   fileRoutesById: FileRoutesById
@@ -171,13 +171,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof prestigeDocsReferenceRouteImport
       parentRoute: typeof prestigeDocsLazyRoute
     }
-    '/(prestige)/docs/introduction': {
-      id: '/(prestige)/docs/introduction'
-      path: '/introduction'
-      fullPath: '/docs/introduction'
-      preLoaderRoute: typeof prestigeDocsIntroductionRouteImport
-      parentRoute: typeof prestigeDocsLazyRoute
-    }
     '/(prestige)/docs/installation': {
       id: '/(prestige)/docs/installation'
       path: '/installation'
@@ -192,21 +185,28 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof prestigeDocsHydrationRouteImport
       parentRoute: typeof prestigeDocsLazyRoute
     }
+    '/(prestige)/docs/get-started': {
+      id: '/(prestige)/docs/get-started'
+      path: '/get-started'
+      fullPath: '/docs/get-started'
+      preLoaderRoute: typeof prestigeDocsGetStartedRouteImport
+      parentRoute: typeof prestigeDocsLazyRoute
+    }
   }
 }
 
 interface prestigeDocsLazyRouteChildren {
+  prestigeDocsGetStartedRoute: typeof prestigeDocsGetStartedRoute
   prestigeDocsHydrationRoute: typeof prestigeDocsHydrationRoute
   prestigeDocsInstallationRoute: typeof prestigeDocsInstallationRoute
-  prestigeDocsIntroductionRoute: typeof prestigeDocsIntroductionRoute
   prestigeDocsReferenceRoute: typeof prestigeDocsReferenceRoute
   prestigeDocsUsageRoute: typeof prestigeDocsUsageRoute
 }
 
 const prestigeDocsLazyRouteChildren: prestigeDocsLazyRouteChildren = {
+  prestigeDocsGetStartedRoute: prestigeDocsGetStartedRoute,
   prestigeDocsHydrationRoute: prestigeDocsHydrationRoute,
   prestigeDocsInstallationRoute: prestigeDocsInstallationRoute,
-  prestigeDocsIntroductionRoute: prestigeDocsIntroductionRoute,
   prestigeDocsReferenceRoute: prestigeDocsReferenceRoute,
   prestigeDocsUsageRoute: prestigeDocsUsageRoute,
 }

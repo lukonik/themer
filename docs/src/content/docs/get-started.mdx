@@ -1,0 +1,106 @@
+# Get Started
+
+Themer is a theme management library built for Tanstack Start and Tanstack Router, most of the time you will use it for adding
+Dark and Light mode for your App.
+
+This library uses Tanstack API, so it wont work with other frameworks. [next-themes](https://github.com/pacocoursey/next-themes) is the alternative
+for using it with NextJS app and it is the inspiration of this library, so kudos to them.
+
+## Installation
+
+Themer assumes you are inside Tanstack App already, for installation run:
+
+```bash
+ npm install @lonik/themer -s
+```
+
+## Usage
+
+### ThemeProvider
+
+Add `ThemeProvider` inside `__root.tsx` file to wrap `Outlet` component
+
+```tsx
+import { ThemeProvider } from "@lonik/themer";
+
+export const Route = createRootRoute({
+  component: () => (
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <HeadContent />
+      </head>
+      <body>
+        <ThemeProvider>
+          <Outlet />
+        </ThemeProvider>
+        <Scripts />
+      </body>
+    </html>
+  ),
+});
+```
+
+After that `ThemeProvider` will manage to add proper attributes to the root element (`html` in this case) to toggle between themes.
+
+### Styling
+
+By Default `ThemeProvider` will add Theme `class` to the root element. So you can style elements based on this criteria. For example
+to change the body background based on theme modes we can write
+
+```css
+:root.light {
+  background: white;
+}
+
+:root.dark {
+  background: black;
+}
+```
+
+### Toggle Theme
+
+to toggle the theme you can use `useTheme` hook
+
+```tsx
+import { useTheme } from "@lonik/themer";
+import { useHydrated } from "@tanstack/react-router";
+import { Moon, Sun, SunMoon } from "lucide-react";
+
+const themeOrder = ["system", "light", "dark"] as const;
+type ThemeValue = (typeof themeOrder)[number];
+
+export function Theme() {
+  const { theme, setTheme } = useTheme();
+  const currentTheme: ThemeValue = (theme as ThemeValue) ?? "system";
+  const hydrated = useHydrated();
+
+  const nextTheme = (value: ThemeValue): ThemeValue => {
+    const index = themeOrder.indexOf(value);
+    return themeOrder[(index + 1) % themeOrder.length]!;
+  };
+
+  const icon =
+    currentTheme === "light" ? (
+      <Sun size={16} />
+    ) : currentTheme === "dark" ? (
+      <Moon size={16} />
+    ) : (
+      <SunMoon size={16} />
+    );
+
+  return (
+    <button
+      suppressHydrationWarning
+      type="button"
+      aria-label={`Theme: ${currentTheme}. Click to switch theme`}
+      title={`Theme: ${currentTheme}`}
+      className="inline-flex h-8 w-8 items-center justify-center rounded-md border border-default-200 bg-default-50 text-default-500 hover:bg-default-100 cursor-pointer"
+      onClick={() => setTheme(nextTheme(currentTheme))}
+    >
+      {hydrated && icon}
+    </button>
+  );
+}
+```
+
+And that's it. You can easily tweak the library with props in `ThemeProvider`.
