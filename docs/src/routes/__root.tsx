@@ -7,8 +7,8 @@ import {
   Scripts,
 } from "@tanstack/react-router";
 import config from "virtual:prestige/config";
-import appCss from "../styles.css?url";
 import HeaderLogo from "../assets/logo.png?$oh";
+import appCss from "../styles.css?url";
 
 const siteUrl = "https://lukonik.github.io/themer";
 const siteTitle = "Themer";
@@ -30,11 +30,6 @@ const options: PrestigeShellProps = {
       Built with Prestige 🎩
     </a>
   ),
-  license: {
-    label: "MIT",
-    url: "https://opensource.org/licenses/MIT",
-  },
-  github: "https://github.com/lukonik/themer",
 };
 
 export const Route = createRootRoute({
