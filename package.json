@@ -2,10 +2,10 @@
   "name": "@lonik/themer",
   "type": "module",
   "version": "0.4.1",
-  "description": "A starter for creating a React component library.",
+  "description": "Theme management for TanStack Router and TanStack Start.",
   "author": "Author Name <author.name@mail.com>",
   "license": "MIT",
-  "homepage": "http://localhost:3001/themer/",
+  "homepage": "https://lukonik.github.io/themer/",
   "repository": {
     "type": "git",
     "url": "https://github.com/lukonik/themer"
